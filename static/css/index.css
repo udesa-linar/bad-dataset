@@ -296,14 +296,20 @@ body {
 .seq-total { color: var(--muted); font-size: 0.88rem; }
 
 .seq-map {
-  display: block;
   width: 100%;
-  max-width: 340px;
   aspect-ratio: 1.45;
-  height: auto;
-  object-fit: cover;
-  margin: 0 auto;
   border-radius: 8px;
+  overflow: hidden;
+  background: #eef0f3;
+  z-index: 0;
+}
+.seq-map .leaflet-control-attribution { font-size: 10px; }
+.landmark-icon span {
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #eb6834; color: #fff; border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  font: bold 11px 'Google Sans', sans-serif;
 }
 .seq-card .columns { min-height: 15.5rem; }
 .seq-note { color: var(--muted); font-size: 0.82rem; margin-top: -0.2rem; }

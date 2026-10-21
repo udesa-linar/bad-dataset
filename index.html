@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="./static/images/favicon-64.png">
@@ -254,7 +255,8 @@
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Sequences</h2>
       <p class="section-lead has-text-centered">Four sequences recorded between February and March 2026, cut into 19 splits.
-        Maps: GNSS track colored by speed; circle: common starting point at the Universidad de San Andrés campus in Victoria.</p>
+        Maps: GNSS track colored by speed; circle: common starting point at the Universidad de San Andrés campus in Victoria.
+        Drag and zoom the maps; click a marker for its name.</p>
       <div class="has-text-centered speed-scale"><img src="./static/images/route_speed_scale.png" width="640" height="110" alt="Speed color scale from 0 to 100 km/h"></div>
       <div class="seq-card">
         <div class="columns is-vcentered">
@@ -266,7 +268,7 @@
               <p class="seq-note">(6) San Isidro Cathedral.</p>
           </div>
           <div class="column is-5 has-text-centered">
-            <img src="./static/images/route_sanfer_sanisidro.jpg" class="seq-map" loading="lazy" alt="Route of SF/SI avenues colored by speed">
+            <div class="seq-map" data-seq="sanfer_sanisidro" role="img" aria-label="Route of SF/SI avenues colored by speed"></div>
           </div>
         </div>
       </div>
@@ -279,7 +281,7 @@
             <div class="tags"><span class="tag">1:12:39</span><span class="tag">22.5 km</span><span class="tag">up to 61.7 km/h</span><span class="tag">20.3 % stopped</span><span class="tag">3 splits</span><span class="tag">480 GB</span></div>
           </div>
           <div class="column is-5 has-text-centered">
-            <img src="./static/images/route_loop_sanisidro.jpg" class="seq-map" loading="lazy" alt="Route of SI loops colored by speed">
+            <div class="seq-map" data-seq="loop_sanisidro" role="img" aria-label="Route of SI loops colored by speed"></div>
           </div>
         </div>
       </div>
@@ -293,7 +295,7 @@
               <p class="seq-note">Map: the part inside the City of Buenos Aires. (1) Casa Rosada, (2) Obelisco, (3) Teatro Colón, (4) National Congress, (5) Parque Centenario.</p>
           </div>
           <div class="column is-5 has-text-centered">
-            <img src="./static/images/route_caba.jpg" class="seq-map" loading="lazy" alt="Route of CABA landmarks inside the City of Buenos Aires, colored by speed">
+            <div class="seq-map" data-seq="caba" role="img" aria-label="Route of CABA landmarks inside the City of Buenos Aires, colored by speed"></div>
           </div>
         </div>
       </div>
@@ -307,7 +309,7 @@
               <p class="seq-note">Map: the part inside the City of Buenos Aires.</p>
           </div>
           <div class="column is-5 has-text-centered">
-            <img src="./static/images/route_loop_caba.jpg" class="seq-map" loading="lazy" alt="Route of CABA loops inside the City of Buenos Aires, colored by speed">
+            <div class="seq-map" data-seq="loop_caba" role="img" aria-label="Route of CABA loops inside the City of Buenos Aires, colored by speed"></div>
           </div>
         </div>
       </div>
@@ -451,5 +453,7 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="./static/js/routes.js"></script>
 </body>
 </html>
