@@ -284,7 +284,7 @@ body {
 .seq-card {
   background: #fff;
   border-radius: 10px;
-  padding: 1rem 1.2rem 0.6rem;
+  padding: 1.1rem 1.3rem;
   margin-bottom: 0.9rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
@@ -295,16 +295,16 @@ body {
 .seq-card .tags .tag { background: #f3f3f3; color: var(--ink-2); }
 .seq-total { color: var(--muted); font-size: 0.88rem; }
 
-.map-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 0.75rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 1rem;
+.seq-map {
+  display: block;
+  max-height: 290px;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
 }
-.map-card img { display: block; width: 100%; height: auto; }
-.map-card figcaption { color: var(--muted); font-size: 0.85rem; text-align: center; margin-top: 0.5rem; }
+.seq-note { color: var(--muted); font-size: 0.82rem; margin-top: -0.2rem; }
+.speed-scale img { width: 260px; height: auto; margin: -1rem auto 1.2rem; display: block; }
 
 /* code */
 .content pre.code-dark {
@@ -328,7 +328,6 @@ pre code { font-size: 0.85rem; }
   .content.has-text-justified, .has-text-justified { text-align: left !important; }
   .stat-value { font-size: 1.6rem; }
   .level.stats .level-item { margin-bottom: 1rem; }
-  .map-card { position: static; }
   .seq-name code { display: inline-block; margin: 0.2rem 0 0; }
 }
 
