@@ -148,6 +148,7 @@ pre .c { color: var(--ink-3); }
 .card h3 { margin-top: 0; }
 .card p:last-child { margin-bottom: 0; }
 .note { background: var(--accent-soft); border-radius: 12px; padding: 14px 18px; color: var(--ink); font-size: 15px; margin: 18px 0 0; }
+.note.soon { margin: 0 0 18px; }
 
 footer { margin-top: 72px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 14px; }
 footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -176,14 +177,16 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
         Paper (coming soon)
       </span>
-      <a class="btn" href="https://huggingface.co/datasets/udesa-linar/buenos-aires-dataset">
+      <!-- when public: <a class="btn" href="https://huggingface.co/datasets/udesa-linar/buenos-aires-dataset"> -->
+      <span class="btn disabled" title="The data will be linked here">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Data (Hugging Face)
-      </a>
-      <a class="btn ghost" href="https://github.com/udesa-linar/badataset_sdk">
+        Data (coming soon)
+      </span>
+      <!-- when public: <a class="btn ghost" href="https://github.com/udesa-linar/badataset_sdk"> -->
+      <span class="btn disabled" title="The toolkit will be linked here">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-        Toolkit (GitHub)
-      </a>
+        Toolkit (coming soon)
+      </span>
       <a class="btn ghost" href="#citation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a5 5 0 0 1-5 5M20 11h-4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a5 5 0 0 1-5 5"/></svg>
         Cite
@@ -287,7 +290,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
 <section id="download">
   <h2>Download</h2>
-  <p>The data are hosted on <a href="https://huggingface.co/datasets/udesa-linar/buenos-aires-dataset">Hugging Face</a> as ROS 2 MCAP bags, one per sensor group and split, so you can download only what you need. The cameras and the LiDAR account for 60 % and 40 % of the 2.9 TB; all the other groups together take less than 10 GB.</p>
+  <p class="note soon">The data and the toolkit are being prepared for release and will be linked from this page soon.</p>
+  <p>The data are hosted on Hugging Face as ROS 2 MCAP bags, one per sensor group and split, so you can download only what you need. The cameras and the LiDAR account for 60 % and 40 % of the 2.9 TB; all the other groups together take less than 10 GB.</p>
   <div class="code"><pre>&lt;root&gt;/&lt;sequence&gt;/split_XX/&lt;group&gt;/&lt;group&gt;_0.mcap
 <span class="c">  group: cameras · lidar · imu_gps · dataspeed · wheel · microphone · ground_truth · tf_static</span>
 &lt;root&gt;/calib/                  <span class="c"># calibration recordings</span></pre></div>
@@ -304,7 +308,7 @@ badataset-download /data/buenos_aires --calib                             <span 
 
 <section id="toolkit">
   <h2>Toolkit</h2>
-  <p>The <a href="https://github.com/udesa-linar/badataset_sdk">badataset</a> Python package reads the bags without a ROS installation, provides the calibration as matrices with LiDAR-to-camera projection, evaluates trajectories against the reference, and contains the scripts that reproduce every calibration from the released recordings and compare the result with the release. The MINS configuration of the reference trajectory is included.</p>
+  <p>The badataset Python package reads the bags without a ROS installation, provides the calibration as matrices with LiDAR-to-camera projection, evaluates trajectories against the reference, and contains the scripts that reproduce every calibration from the released recordings and compare the result with the release. The MINS configuration of the reference trajectory is included.</p>
   <div class="code"><button class="copy" type="button">Copy</button><pre>from badataset import Dataset, calib, sync
 from badataset.groundtruth import Reference
 from badataset import evaluate as E
