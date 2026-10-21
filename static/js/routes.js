@@ -11,10 +11,22 @@
 
   function draw(el, d, binKmh) {
     var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25, attributionControl: true });
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    var OSM = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, referrerPolicy: 'strict-origin-when-cross-origin', attribution: OSM
     }).addTo(map);
+    // the OpenStreetMap tile servers refuse requests without a referrer (some privacy settings strip it):
+    // if no tile loads, switch to CARTO's rendering of the same OpenStreetMap data
+    var loaded = 0, failed = 0, switched = false;
+    tiles.on('tileload', function () { loaded++; });
+    tiles.on('tileerror', function () {
+      if (++failed >= 3 && loaded === 0 && !switched) {
+        switched = true; map.removeLayer(tiles);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          maxZoom: 19, subdomains: 'abcd', attribution: OSM + ' &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+      }
+    });
     var classes = Object.keys(d.classes).map(Number).sort(function (a, b) { return a - b; });
     // dark casing under the colored track, so light (slow) segments stay visible on the map
     classes.forEach(function (c) {
@@ -35,10 +47,17 @@
     map.fitBounds(d.bounds, { padding: [12, 12] });
   }
 
-  fetch('./static/data/routes.json').then(function (r) { return r.json(); }).then(function (data) {
-    document.querySelectorAll('.seq-map[data-seq]').forEach(function (el) {
+  var boxes = document.querySelectorAll('.seq-map[data-seq]');
+  function fail(msg) {
+    boxes.forEach(function (el) { if (!el.classList.contains('leaflet-container')) el.innerHTML = '<p class="map-msg">' + msg + '</p>'; });
+  }
+  if (typeof L === 'undefined') { fail('The map could not be loaded in this browser.'); return; }
+  fetch('./static/data/routes.json').then(function (r) {
+    if (!r.ok) throw new Error(r.status); return r.json();
+  }).then(function (data) {
+    boxes.forEach(function (el) {
       var d = data.sequences[el.getAttribute('data-seq')];
       if (d) draw(el, d, data.bin_kmh);
     });
-  });
+  }).catch(function () { fail('The route data could not be loaded.'); });
 })();

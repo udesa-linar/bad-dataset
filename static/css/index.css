@@ -344,3 +344,15 @@ pre code { font-size: 0.85rem; }
 /* Bulma's .hero.is-light recolors links to the text color; keep them visible */
 .hero .feature a:not(.button) { color: var(--accent) !important; }
 .hero .feature a:not(.button):hover { text-decoration: underline; }
+
+/* inline SVG icons (Font Awesome Free paths), sized like the icon font they replace */
+.svg-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.125em;
+  overflow: visible;
+}
+.button .icon .svg-icon { width: 1.05em; height: 1.05em; }
+.map-msg { display: flex; align-items: center; justify-content: center; height: 100%; padding: 1rem; color: #6b6b6b; font-size: 0.9rem; text-align: center; }
