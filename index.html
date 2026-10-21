@@ -1,346 +1,331 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Buenos Aires Dataset</title>
-<meta name="description" content="Multimodal driving data from a Latin American metropolis with GNSS-referenced time synchronization: LiDAR, five cameras, IMU, two RTK GNSS receivers, microphone and vehicle bus, 7 h 55 min and 180 km in the Buenos Aires Metropolitan Area.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5fa8'/%3E%3Ctext x='16' y='22' font-family='Arial,sans-serif' font-size='15' font-weight='700' fill='white' text-anchor='middle'%3EBA%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #ffffff;
-  --bg-soft: #f5f7fa;
-  --card: #ffffff;
-  --ink: #16202c;
-  --ink-2: #44505e;
-  --ink-3: #6b7685;
-  --line: #e1e6ed;
-  --accent: #1f5fa8;
-  --accent-ink: #ffffff;
-  --accent-soft: #e8f0fa;
-  --code-bg: #f2f4f7;
-  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 4px 16px rgba(16, 24, 40, .06);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f141a;
-    --bg-soft: #151c24;
-    --card: #19212b;
-    --ink: #e7ecf2;
-    --ink-2: #b7c1cc;
-    --ink-3: #8994a1;
-    --line: #2a3441;
-    --accent: #6ea8ec;
-    --accent-ink: #0b1420;
-    --accent-soft: #1b2a3c;
-    --code-bg: #121920;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f141a;
-  --bg-soft: #151c24;
-  --card: #19212b;
-  --ink: #e7ecf2;
-  --ink-2: #b7c1cc;
-  --ink-3: #8994a1;
-  --line: #2a3441;
-  --accent: #6ea8ec;
-  --accent-ink: #0b1420;
-  --accent-soft: #1b2a3c;
-  --code-bg: #121920;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
-@media (max-width: 600px) { .wrap { padding: 0 16px; } }
+  <meta charset="utf-8">
+  <meta name="description"
+        content="The Buenos Aires Dataset: multimodal driving data from a Latin American metropolis with GNSS-referenced time synchronization. LiDAR, five cameras, IMU, two RTK GNSS receivers, microphone and vehicle bus; 7 h 55 min and 180 km in the Buenos Aires Metropolitan Area.">
+  <meta name="keywords" content="autonomous driving, multimodal dataset, time synchronization, sensor calibration, LiDAR, GNSS, Buenos Aires, Latin America">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Buenos Aires Dataset</title>
 
-/* header */
-header.hero { padding: 64px 0 36px; text-align: center; }
-.kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
-h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.12; letter-spacing: -.02em; margin: 0 0 14px; font-weight: 700; }
-.subtitle { font-size: clamp(17px, 2.2vw, 20px); color: var(--ink-2); margin: 0 auto 26px; max-width: 760px; }
-.authors { font-size: 16.5px; margin: 0 0 6px; }
-.authors span { white-space: nowrap; }
-.affil { font-size: 14px; color: var(--ink-3); margin: 0 auto; max-width: 760px; }
-.buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 28px 0 0; }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 15px;
-  background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent);
-}
-.btn:hover { text-decoration: none; filter: brightness(1.08); }
-.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-.btn.disabled { background: transparent; color: var(--ink-3); border: 1px dashed var(--line); cursor: default; }
-.btn svg { width: 17px; height: 17px; flex: none; }
-
-.vehicle { margin: 34px auto 0; max-width: 820px; background: #fff; border-radius: 18px; padding: 10px 18px; box-shadow: var(--shadow); }
-.vehicle img { display: block; width: 100%; height: auto; }
-.cap { font-size: 14px; color: var(--ink-3); margin: 12px auto 0; max-width: 760px; text-align: center; }
-
-/* stats */
-.stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 44px 0 0; }
-.stat { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 14px; padding: 16px 14px; text-align: center; }
-.stat b { display: block; font-size: 24px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.stat span { font-size: 13px; color: var(--ink-3); }
-@media (max-width: 860px) { .stats { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 480px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-
-/* sections */
-nav.toc { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); margin-top: 48px; }
-nav.toc .wrap { display: flex; gap: 22px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; scrollbar-width: none; }
-nav.toc a { color: var(--ink-2); font-size: 14.5px; font-weight: 500; white-space: nowrap; }
-nav.toc a:hover { color: var(--accent); text-decoration: none; }
-section { padding: 56px 0 8px; scroll-margin-top: 48px; }
-h2 { font-size: 27px; letter-spacing: -.015em; margin: 0 0 16px; }
-h3 { font-size: 18px; margin: 28px 0 10px; }
-p { margin: 0 0 14px; color: var(--ink-2); }
-p.lead { font-size: 17.5px; color: var(--ink); }
-figure { margin: 22px 0 0; }
-figure img { display: block; width: 100%; height: auto; border-radius: 12px; }
-figure.map { max-width: 640px; margin-left: auto; margin-right: auto; }
-figure.map img { background: #fff; padding: 8px; }
-figcaption { font-size: 14px; color: var(--ink-3); margin-top: 10px; }
-ul.plain { padding-left: 20px; margin: 0 0 14px; color: var(--ink-2); }
-ul.plain li { margin: 4px 0; }
-
-/* tables */
-.table { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; margin: 18px 0 0; }
-table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14.5px; }
-td.nowrap { white-space: nowrap; }
-th, td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
-tr:last-child td { border-bottom: none; }
-th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 600; background: var(--bg-soft); white-space: nowrap; }
-td { color: var(--ink-2); }
-td:first-child { color: var(--ink); font-weight: 500; }
-td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-tr.total td { font-weight: 600; color: var(--ink); background: var(--bg-soft); }
-
-/* code */
-code, pre { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
-code { font-size: .88em; background: var(--code-bg); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
-.code { position: relative; margin: 12px 0 18px; }
-pre { margin: 0; background: var(--code-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; overflow-x: auto; font-size: 13.5px; line-height: 1.6; color: var(--ink); }
-pre .c { color: var(--ink-3); }
-.copy {
-  position: absolute; top: 8px; right: 8px; font: 500 12.5px Inter, sans-serif;
-  padding: 5px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer;
-}
-.copy:hover { color: var(--accent); border-color: var(--accent); }
-@media (max-width: 760px) { .copy + pre { padding-top: 44px; } }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
-.card h3 { margin-top: 0; }
-.card p:last-child { margin-bottom: 0; }
-.note { background: var(--accent-soft); border-radius: 12px; padding: 14px 18px; color: var(--ink); font-size: 15px; margin: 18px 0 0; }
-.note.soon { margin: 0 0 18px; }
-
-footer { margin-top: 72px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 14px; }
-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.theme { background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; font: 500 13px Inter, sans-serif; cursor: pointer; }
-</style>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <p class="kicker">Dataset &middot; IJRR (submitted)</p>
-    <h1>The Buenos Aires Dataset</h1>
-    <p class="subtitle">Multimodal driving data from a Latin American metropolis with GNSS-referenced time synchronization</p>
-    <p class="authors">
-      <span>Agustín Roca<sup>1</sup>,</span>
-      <span>Gastón Castro<sup>1,2</sup>,</span>
-      <span>Claus Rosito<sup>1</sup>,</span>
-      <span>Gabriel Torre<sup>1,3</sup>,</span>
-      <span>Ignacio Mas<sup>1,2</sup></span> and
-      <span>Juan I. Giribet<sup>1,2</sup></span>
-    </p>
-    <p class="affil"><sup>1</sup>Laboratorio de Inteligencia Artificial y Robótica (LINAR), Universidad de San Andrés &nbsp;·&nbsp; <sup>2</sup>CONICET &nbsp;·&nbsp; <sup>3</sup>Instituto de Ingeniería Biomédica, Universidad de Buenos Aires</p>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">The Buenos Aires Dataset</h1>
+          <h2 class="subtitle is-4 publication-subtitle">Multimodal Driving Data from a Latin American Metropolis with GNSS-Referenced Time Synchronization</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Agustín Roca<sup>1</sup>,</span>
+            <span class="author-block">Gastón Castro<sup>1,2</sup>,</span>
+            <span class="author-block">Claus Rosito<sup>1</sup>,</span>
+            <span class="author-block">Gabriel Torre<sup>1,3</sup>,</span>
+            <span class="author-block">Ignacio Mas<sup>1,2</sup>,</span>
+            <span class="author-block">Juan I. Giribet<sup>1,2</sup></span>
+          </div>
+          <div class="is-size-6 publication-authors affiliations">
+            <span class="author-block"><sup>1</sup>Laboratorio de Inteligencia Artificial y Robótica (LINAR), Universidad de San Andrés,</span>
+            <span class="author-block"><sup>2</sup>CONICET,</span>
+            <span class="author-block"><sup>3</sup>Instituto de Ingeniería Biomédica, Universidad de Buenos Aires</span>
+          </div>
+          <div class="is-size-6 publication-venue-line">International Journal of Robotics Research (submitted)</div>
 
-    <div class="buttons">
-      <span class="btn disabled" title="The paper will be linked here">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
-        Paper (coming soon)
-      </span>
-      <!-- when public: <a class="btn" href="https://huggingface.co/datasets/udesa-linar/buenos-aires-dataset"> -->
-      <span class="btn disabled" title="The data will be linked here">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Data (coming soon)
-      </span>
-      <!-- when public: <a class="btn ghost" href="https://github.com/udesa-linar/badataset_sdk"> -->
-      <span class="btn disabled" title="The toolkit will be linked here">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-        Toolkit (coming soon)
-      </span>
-      <a class="btn ghost" href="#citation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a5 5 0 0 1-5 5M20 11h-4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7a5 5 0 0 1-5 5"/></svg>
-        Cite
-      </a>
-    </div>
-
-    <div class="vehicle"><img src="assets/vehicle.jpg" width="1600" height="1060" alt="The acquisition vehicle, a white Ford Fusion Hybrid with a roof rack carrying the LiDAR and cameras"></div>
-    <p class="cap">The acquisition platform, a 2017 Ford Fusion Hybrid with the sensor rack: LiDAR and cameras on the roof, GNSS antennas on the hood and the trunk lid.</p>
-
-    <div class="stats" aria-label="The release in numbers">
-      <div class="stat"><b>7 h 55 min</b><span>of driving</span></div>
-      <div class="stat"><b>180 km</b><span>4 sequences</span></div>
-      <div class="stat"><b>284,576</b><span>LiDAR scans</span></div>
-      <div class="stat"><b>553,742</b><span>front stereo images</span></div>
-      <div class="stat"><b>1,708,403</b><span>peripheral images</span></div>
-      <div class="stat"><b>2.9 TB</b><span>in 19 splits</span></div>
-    </div>
-  </div>
-</header>
-
-<nav class="toc" aria-label="Sections">
-  <div class="wrap">
-    <a href="#overview">Overview</a>
-    <a href="#sensors">Sensors</a>
-    <a href="#sequences">Sequences</a>
-    <a href="#download">Download</a>
-    <a href="#toolkit">Toolkit</a>
-    <a href="#license">License &amp; privacy</a>
-    <a href="#citation">Citation</a>
-    <a href="#updates">Updates</a>
-  </div>
-</nav>
-
-<main class="wrap">
-
-<section id="overview">
-  <h2>Overview</h2>
-  <p class="lead">Public multimodal driving datasets come almost exclusively from North America, Europe and East Asia, so the traffic of Latin American cities, with motorcycles filtering between lanes, buses stopping in mixed traffic, pedestrians and hand-pulled carts, cobblestones and faded markings, is essentially missing from them.</p>
-  <p>The Buenos Aires Dataset was recorded in the Buenos Aires Metropolitan Area across residential streets, avenues, the historic center and highways, with a vehicle carrying a 64-beam LiDAR, five cameras, an industrial IMU, two RTK GNSS receivers, a microphone and its drive-by-wire bus. Beyond the data, we treat time synchronization as a result rather than an assumption: every sensor stream is referenced to GNSS time, and the synchronization is verified over every recording. The release includes the calibration, a reference trajectory obtained by multi-sensor fusion, and a Python toolkit to read the data and evaluate trajectories.</p>
-  <figure>
-    <img src="assets/scenes.jpg" width="1860" height="1042" loading="lazy" alt="Six front-camera frames: a cyclist on an avenue, pedestrians pushing a car, a narrow street, a cobblestone street in front of a cathedral, a hand-pulled cart and refuse on a curb">
-    <figcaption>Front-camera frames: a cyclist on the shoulder of an avenue, pedestrians pushing a car, a narrow residential street, a cobblestone street in front of the San Isidro cathedral, a hand-pulled cart crossing an intersection, and refuse on the curb of a residential street. Faces and license plates are blurred as in the release.</figcaption>
-  </figure>
-</section>
-
-<section id="sensors">
-  <h2>Sensors</h2>
-  <p>Rates are the measured mean rates over the release. Every message carries a GNSS-referenced UTC stamp; the last column says how each stream gets it.</p>
-  <div class="table">
-    <table>
-      <thead><tr><th>Sensor</th><th>Model</th><th class="num">Rate</th><th>Characteristics</th><th>Time stamp</th></tr></thead>
-      <tbody>
-        <tr><td>LiDAR</td><td>Velodyne HDL-64E S3</td><td class="num">10 Hz</td><td>64 beams, 360° horizontal, elevations −23.5° to +3.2°, 1.6–2.0 × 10<sup>5</sup> points per scan</td><td>sensor clock (PPS + NMEA)</td></tr>
-        <tr><td>Front cameras (×2)</td><td>IDS UI-3280CP-C-HQ Rev. 2, 5 mm f/2.8</td><td class="num">10 Hz</td><td>global shutter, 1224 × 1026, HFoV 81°, stereo baseline 0.53 m, triggered by the LiDAR</td><td>camera clock, corrected with the LiDAR</td></tr>
-        <tr><td>Lateral cameras (×2)</td><td>IDS UI-3280CP-C-HQ Rev. 2, 8 mm f/1.4</td><td class="num">20 Hz</td><td>global shutter, 1224 × 1026, HFoV 53°–55°</td><td>camera clock, mapped to GNSS</td></tr>
-        <tr><td>Rear camera</td><td>IDS UI-3270CP, 9–90 mm f/1.8</td><td class="num">20 Hz</td><td>global shutter, 1024 × 770, HFoV 42°</td><td>camera clock, mapped to GNSS</td></tr>
-        <tr><td>IMU</td><td>Xsens MTi-610</td><td class="num">100 Hz</td><td>noise density: accelerometer 9.6 × 10<sup>−4</sup> m/s²/√Hz, gyroscope 4.4 × 10<sup>−4</sup> rad/s/√Hz</td><td>IMU clock, mapped to GNSS</td></tr>
-        <tr><td>GNSS (×2)</td><td>u-blox ZED-F9P</td><td class="num">5 Hz</td><td>multi-band; moving base with NTRIP RTK corrections, rover with moving baseline (heading)</td><td>GNSS epoch</td></tr>
-        <tr><td>Microphone</td><td>Behringer ECM8000</td><td class="num">44.1 kHz</td><td>omnidirectional measurement microphone, 16 bit, mono</td><td>aligned with claps</td></tr>
-        <tr><td>Vehicle bus</td><td>Dataspeed DBW kit</td><td class="num">1–100 Hz</td><td>pedals, steering, gear, wheel speeds, tire pressures, sonars, vehicle IMU</td><td>host clock</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="grid2" style="margin-top:22px">
-    <div class="card">
-      <h3>Calibration</h3>
-      <p>Camera intrinsics, the stereo pair, the LiDAR–camera extrinsics and the IMU noise model are released with the dedicated calibration recordings (<code>calib/</code>), so every calibration can be recomputed and checked with the toolkit.</p>
-    </div>
-    <div class="card">
-      <h3>Reference trajectory</h3>
-      <p>Every sequence has a reference trajectory from multi-sensor fusion (MINS) of the IMU, the front stereo pair, the LiDAR, the wheel speeds and both GNSS receivers, with its covariance, in the <code>ground_truth</code> bags.</p>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- Paper link: add when available. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper (soon)</span>
+                </a>
+              </span>
+              <!-- Data link. When public: href="https://huggingface.co/datasets/udesa-linar/buenos-aires-dataset", drop disabled. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon">🤗</span>
+                  <span>Data (soon)</span>
+                </a>
+              </span>
+              <!-- Code link. When public: href="https://github.com/udesa-linar/badataset_sdk", drop disabled. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark" disabled title="Coming soon">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Toolkit (soon)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#BibTeX" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-quote-right"></i></span>
+                  <span>BibTeX</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="sequences">
-  <h2>Sequences</h2>
-  <ul class="plain">
-    <li><b>SF/SI avenues</b> (3 February 2026): main avenues of San Fernando and San Isidro.</li>
-    <li><b>SI loops</b> (18 March 2026): residential streets of San Isidro, driven to produce loop closures, with cobblestone pavement, speed bumps and dense tree cover.</li>
-    <li><b>CABA landmarks</b> (23 March 2026): from San Fernando to the center of the City of Buenos Aires (CABA) and back, along the Ramal Tigre and Panamericana highways and the General Paz avenue, passing the Casa Rosada, the Obelisco, the Teatro Colón, the National Congress and Parque Centenario.</li>
-    <li><b>CABA loops</b> (30 March 2026): from San Fernando to CABA along the same highways, followed by repeated loops over residential streets in the north of the City of Buenos Aires.</li>
-  </ul>
-  <div class="table">
-    <table>
-      <thead><tr><th>Sequence</th><th>Folder</th><th>Start (UTC−3)</th><th class="num">Splits</th><th class="num">Duration</th><th class="num">Distance</th><th class="num">Max. speed</th><th class="num">Stopped</th><th class="num">Size</th></tr></thead>
-      <tbody>
-        <tr><td>SF/SI avenues</td><td><code>sanfer_sanisidro</code></td><td class="nowrap">2026-02-03 13:41</td><td class="num">2</td><td class="num">1:00:26</td><td class="num">20.0 km</td><td class="num">60.9 km/h</td><td class="num">16.8 %</td><td class="num">383 GB</td></tr>
-        <tr><td>SI loops</td><td><code>loop_sanisidro</code></td><td class="nowrap">2026-03-18 10:53</td><td class="num">3</td><td class="num">1:12:39</td><td class="num">22.5 km</td><td class="num">61.7 km/h</td><td class="num">20.3 %</td><td class="num">480 GB</td></tr>
-        <tr><td>CABA landmarks</td><td><code>caba</code></td><td class="nowrap">2026-03-23 11:15</td><td class="num">9</td><td class="num">3:17:22</td><td class="num">81.9 km</td><td class="num">101.4 km/h</td><td class="num">28.0 %</td><td class="num">1,197 GB</td></tr>
-        <tr><td>CABA loops</td><td><code>loop_caba</code></td><td class="nowrap">2026-03-30 12:11</td><td class="num">5</td><td class="num">2:24:17</td><td class="num">55.6 km</td><td class="num">98.2 km/h</td><td class="num">22.4 %</td><td class="num">883 GB</td></tr>
-        <tr class="total"><td>Total</td><td></td><td></td><td class="num">19</td><td class="num">7:54:45</td><td class="num">180.0 km</td><td class="num"></td><td class="num"></td><td class="num">2,942 GB</td></tr>
-      </tbody>
-    </table>
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/images/vehicle.jpg" class="teaser-image" width="1600" height="1060"
+           alt="The acquisition vehicle, a white Ford Fusion Hybrid with a roof rack carrying the LiDAR and cameras">
+      <h2 class="subtitle has-text-centered">
+        Driving data from the <span class="dname">Buenos Aires Metropolitan Area</span>, recorded with a 64-beam LiDAR,
+        five cameras, an industrial IMU, two RTK GNSS receivers, a microphone and the vehicle bus,
+        with every stream referenced to GNSS time.
+      </h2>
+    </div>
   </div>
-  <figure class="map">
-    <img src="assets/routes.jpg" width="1400" height="1520" loading="lazy" alt="Maps of the four routes colored by speed">
-    <figcaption>Routes of the four sequences, colored by speed. Map data © OpenStreetMap contributors.</figcaption>
-  </figure>
 </section>
 
-<section id="download">
-  <h2>Download</h2>
-  <p class="note soon">The data and the toolkit are being prepared for release and will be linked from this page soon.</p>
-  <p>The data are hosted on Hugging Face as ROS 2 MCAP bags, one per sensor group and split, so you can download only what you need. The cameras and the LiDAR account for 60 % and 40 % of the 2.9 TB; all the other groups together take less than 10 GB.</p>
-  <div class="code"><pre>&lt;root&gt;/&lt;sequence&gt;/split_XX/&lt;group&gt;/&lt;group&gt;_0.mcap
-<span class="c">  group: cameras · lidar · imu_gps · dataspeed · wheel · microphone · ground_truth · tf_static</span>
-&lt;root&gt;/calib/                  <span class="c"># calibration recordings</span></pre></div>
-  <p>The toolkit's download command fetches any subset and resumes interrupted downloads:</p>
-  <div class="code"><button class="copy" type="button">Copy</button><pre>pip install "badataset[download] @ git+https://github.com/udesa-linar/badataset_sdk"
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered has-text-centered stats">
+        <div class="column"><p class="stat-value">7 h 55 min</p><p class="stat-label">of driving</p></div>
+        <div class="column"><p class="stat-value">180 km</p><p class="stat-label">in 4 sequences</p></div>
+        <div class="column"><p class="stat-value">284,576</p><p class="stat-label">LiDAR scans</p></div>
+        <div class="column"><p class="stat-value">553,742</p><p class="stat-label">front stereo images</p></div>
+        <div class="column"><p class="stat-value">1,708,403</p><p class="stat-label">peripheral images</p></div>
+        <div class="column"><p class="stat-value">2.9 TB</p><p class="stat-label">in 19 splits</p></div>
+      </div>
+      <img src="./static/images/scenes.jpg" class="band-image" width="1860" height="1042" loading="lazy"
+           alt="Six front-camera frames: a cyclist on an avenue, pedestrians pushing a car, a narrow street, a cobblestone street in front of a cathedral, a hand-pulled cart and refuse on a curb">
+      <p class="has-text-centered caption">Front-camera frames: a cyclist on the shoulder of an avenue, pedestrians pushing a car, a narrow residential street,
+        a cobblestone street in front of the San Isidro cathedral, a hand-pulled cart crossing an intersection, and refuse on the
+        curb of a residential street. Faces and license plates are blurred as in the release.</p>
+    </div>
+  </div>
+</section>
 
-badataset-download /data/buenos_aires                                     <span class="c"># everything (2.9 TB)</span>
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Public multimodal driving datasets come almost exclusively from North America, Europe and East Asia, so the
+            traffic of Latin American cities, with motorcycles filtering between lanes, buses stopping in mixed traffic,
+            pedestrians and hand-pulled carts, cobblestones and faded markings, is essentially missing from them.
+            We present the Buenos Aires Dataset, recorded in the Buenos Aires Metropolitan Area across residential
+            streets, avenues, the historic center and highways, with a vehicle carrying a 64-beam LiDAR, five cameras,
+            an industrial IMU, two RTK GNSS receivers, a microphone and its drive-by-wire bus.
+          </p>
+          <p>
+            Beyond the data, we treat time synchronization as a result rather than an assumption: we describe how every
+            sensor stream is referenced to GNSS time and verify it over every recording. The release includes the
+            calibration, a reference trajectory obtained by multi-sensor fusion, and a Python toolkit to read the data
+            and evaluate trajectories.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container is-max-desktop">
+
+    <!-- Sensors. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Sensors</h2>
+        <div class="content has-text-justified">
+          <p>Rates are the measured mean rates over the release. Every message carries a GNSS-referenced UTC stamp; the
+            last column says how each stream gets it.</p>
+        </div>
+        <div class="table-container">
+          <table class="table is-fullwidth is-hoverable data-table">
+            <thead>
+              <tr><th>Sensor</th><th>Model</th><th class="has-text-right">Rate</th><th>Characteristics</th><th>Time stamp</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>LiDAR</td><td>Velodyne HDL-64E S3</td><td class="has-text-right nowrap">10 Hz</td><td>64 beams, 360° horizontal, elevations −23.5° to +3.2°, 1.6–2.0 × 10<sup>5</sup> points per scan</td><td>sensor clock (PPS + NMEA)</td></tr>
+              <tr><td>Front cameras (×2)</td><td>IDS UI-3280CP-C-HQ Rev. 2, 5 mm f/2.8</td><td class="has-text-right nowrap">10 Hz</td><td>global shutter, 1224 × 1026, HFoV 81°, stereo baseline 0.53 m, triggered by the LiDAR</td><td>camera clock, corrected with the LiDAR</td></tr>
+              <tr><td>Lateral cameras (×2)</td><td>IDS UI-3280CP-C-HQ Rev. 2, 8 mm f/1.4</td><td class="has-text-right nowrap">20 Hz</td><td>global shutter, 1224 × 1026, HFoV 53°–55°</td><td>camera clock, mapped to GNSS</td></tr>
+              <tr><td>Rear camera</td><td>IDS UI-3270CP, 9–90 mm f/1.8</td><td class="has-text-right nowrap">20 Hz</td><td>global shutter, 1024 × 770, HFoV 42°</td><td>camera clock, mapped to GNSS</td></tr>
+              <tr><td>IMU</td><td>Xsens MTi-610</td><td class="has-text-right nowrap">100 Hz</td><td>noise density: accelerometer 9.6 × 10<sup>−4</sup> m/s²/√Hz, gyroscope 4.4 × 10<sup>−4</sup> rad/s/√Hz</td><td>IMU clock, mapped to GNSS</td></tr>
+              <tr><td>GNSS (×2)</td><td>u-blox ZED-F9P</td><td class="has-text-right nowrap">5 Hz</td><td>multi-band; moving base with NTRIP RTK corrections, rover with moving baseline (heading)</td><td>GNSS epoch</td></tr>
+              <tr><td>Microphone</td><td>Behringer ECM8000</td><td class="has-text-right nowrap">44.1 kHz</td><td>omnidirectional measurement microphone, 16 bit, mono</td><td>aligned with claps</td></tr>
+              <tr><td>Vehicle bus</td><td>Dataspeed DBW kit</td><td class="has-text-right nowrap">1–100 Hz</td><td>pedals, steering, gear, wheel speeds, tire pressures, sonars, vehicle IMU</td><td>host clock</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="columns mt-4">
+          <div class="column">
+            <h3 class="title is-5">Calibration</h3>
+            <div class="content has-text-justified">
+              <p>Camera intrinsics, the stereo pair, the LiDAR–camera extrinsics and the IMU noise model are released with
+                the dedicated calibration recordings (<code>calib/</code>), so every calibration can be recomputed and
+                checked with the toolkit.</p>
+            </div>
+          </div>
+          <div class="column">
+            <h3 class="title is-5">Reference trajectory</h3>
+            <div class="content has-text-justified">
+              <p>Every sequence has a reference trajectory from multi-sensor fusion (MINS) of the IMU, the front stereo
+                pair, the LiDAR, the wheel speeds and both GNSS receivers, with its covariance, in the
+                <code>ground_truth</code> bags.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Sensors. -->
+
+    <!-- Sequences. -->
+    <div class="columns is-centered mt-5">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Sequences</h2>
+        <div class="content has-text-justified">
+          <ul>
+            <li><b>SF/SI avenues</b> (3 February 2026): main avenues of San Fernando and San Isidro.</li>
+            <li><b>SI loops</b> (18 March 2026): residential streets of San Isidro, driven to produce loop closures, with
+              cobblestone pavement, speed bumps and dense tree cover.</li>
+            <li><b>CABA landmarks</b> (23 March 2026): from San Fernando to the center of the City of Buenos Aires (CABA)
+              and back, along the Ramal Tigre and Panamericana highways and the General Paz avenue, passing the Casa
+              Rosada, the Obelisco, the Teatro Colón, the National Congress and Parque Centenario.</li>
+            <li><b>CABA loops</b> (30 March 2026): from San Fernando to CABA along the same highways, followed by repeated
+              loops over residential streets in the north of the City of Buenos Aires.</li>
+          </ul>
+        </div>
+        <div class="table-container">
+          <table class="table is-fullwidth is-hoverable data-table">
+            <thead>
+              <tr><th>Sequence</th><th>Folder</th><th>Start (UTC−3)</th><th class="has-text-right">Splits</th><th class="has-text-right">Duration</th><th class="has-text-right">Distance</th><th class="has-text-right">Max. speed</th><th class="has-text-right">Stopped</th><th class="has-text-right">Size</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>SF/SI avenues</td><td><code>sanfer_sanisidro</code></td><td class="nowrap">2026-02-03 13:41</td><td class="has-text-right">2</td><td class="has-text-right">1:00:26</td><td class="has-text-right nowrap">20.0 km</td><td class="has-text-right nowrap">60.9 km/h</td><td class="has-text-right nowrap">16.8 %</td><td class="has-text-right nowrap">383 GB</td></tr>
+              <tr><td>SI loops</td><td><code>loop_sanisidro</code></td><td class="nowrap">2026-03-18 10:53</td><td class="has-text-right">3</td><td class="has-text-right">1:12:39</td><td class="has-text-right nowrap">22.5 km</td><td class="has-text-right nowrap">61.7 km/h</td><td class="has-text-right nowrap">20.3 %</td><td class="has-text-right nowrap">480 GB</td></tr>
+              <tr><td>CABA landmarks</td><td><code>caba</code></td><td class="nowrap">2026-03-23 11:15</td><td class="has-text-right">9</td><td class="has-text-right">3:17:22</td><td class="has-text-right nowrap">81.9 km</td><td class="has-text-right nowrap">101.4 km/h</td><td class="has-text-right nowrap">28.0 %</td><td class="has-text-right nowrap">1,197 GB</td></tr>
+              <tr><td>CABA loops</td><td><code>loop_caba</code></td><td class="nowrap">2026-03-30 12:11</td><td class="has-text-right">5</td><td class="has-text-right">2:24:17</td><td class="has-text-right nowrap">55.6 km</td><td class="has-text-right nowrap">98.2 km/h</td><td class="has-text-right nowrap">22.4 %</td><td class="has-text-right nowrap">883 GB</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><th>Total</th><th></th><th></th><th class="has-text-right">19</th><th class="has-text-right">7:54:45</th><th class="has-text-right nowrap">180.0 km</th><th></th><th></th><th class="has-text-right nowrap">2,942 GB</th></tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="has-text-centered">
+          <img src="./static/images/routes.jpg" class="routes-image" width="1400" height="1520" loading="lazy"
+               alt="Maps of the four routes colored by speed">
+          <p class="caption">Routes of the four sequences, colored by speed. Map data © OpenStreetMap contributors.</p>
+        </div>
+      </div>
+    </div>
+    <!--/ Sequences. -->
+
+    <!-- Download. -->
+    <div class="columns is-centered mt-5">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Download</h2>
+        <div class="notification is-info is-light">
+          The data and the toolkit are being prepared for release and will be linked from this page soon.
+        </div>
+        <div class="content has-text-justified">
+          <p>The data are hosted on Hugging Face as ROS 2 MCAP bags, one per sensor group and split, so you can download
+            only what you need. The cameras and the LiDAR account for 60 % and 40 % of the 2.9 TB; all the other groups
+            together take less than 10 GB. MCAP embeds the message definitions, so every topic, including the u-blox
+            and Dataspeed messages, can be decoded without ROS or the corresponding packages.</p>
+          <pre><code>&lt;root&gt;/&lt;sequence&gt;/split_XX/&lt;group&gt;/&lt;group&gt;_0.mcap
+    group: cameras, lidar, imu_gps, dataspeed, wheel, microphone, ground_truth, tf_static
+&lt;root&gt;/calib/                     # calibration recordings</code></pre>
+          <p>The toolkit's download command fetches any subset and resumes interrupted downloads:</p>
+          <pre><code>pip install "badataset[download] @ git+https://github.com/udesa-linar/badataset_sdk"
+
+badataset-download /data/buenos_aires                                     # everything (2.9 TB)
 badataset-download /data/buenos_aires --sequences loop_caba \
-    --groups imu_gps ground_truth tf_static                               <span class="c"># IMU, GNSS and reference only</span>
-badataset-download /data/buenos_aires --sequences caba --splits split_03  <span class="c"># one short split</span>
-badataset-download /data/buenos_aires --calib                             <span class="c"># calibration recordings</span></pre></div>
-  <p>MCAP embeds the message definitions, so every topic, including the u-blox and Dataspeed messages, can be decoded without ROS or the corresponding packages.</p>
-</section>
+    --groups imu_gps ground_truth tf_static                               # IMU, GNSS and reference only
+badataset-download /data/buenos_aires --sequences caba --splits split_03  # one short split
+badataset-download /data/buenos_aires --calib                             # calibration recordings</code></pre>
+        </div>
+      </div>
+    </div>
+    <!--/ Download. -->
 
-<section id="toolkit">
-  <h2>Toolkit</h2>
-  <p>The badataset Python package reads the bags without a ROS installation, provides the calibration as matrices with LiDAR-to-camera projection, evaluates trajectories against the reference, and contains the scripts that reproduce every calibration from the released recordings and compare the result with the release. The MINS configuration of the reference trajectory is included.</p>
-  <div class="code"><button class="copy" type="button">Copy</button><pre>from badataset import Dataset, calib, sync
+    <!-- Toolkit. -->
+    <div class="columns is-centered mt-5">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Toolkit</h2>
+        <div class="content has-text-justified">
+          <p>The <code>badataset</code> Python package reads the bags without a ROS installation, provides the
+            calibration as matrices with LiDAR-to-camera projection, evaluates trajectories against the reference, and
+            contains the scripts that reproduce every calibration from the released recordings and compare the result
+            with the release. The MINS configuration of the reference trajectory is included.</p>
+          <pre><code>from badataset import Dataset, sync
 from badataset.groundtruth import Reference
 from badataset import evaluate as E
 
 seq = Dataset('/data/buenos_aires').sequence('loop_caba')
-for t, imu in seq.messages('/imu/data'):          <span class="c"># any topic; t = GNSS-referenced stamp [s]</span>
+for t, imu in seq.messages('/imu/data'):          # any topic; t = GNSS-referenced stamp [s]
     ...
 for f in sync.front_frames(seq, start=t0, end=t0 + 2):
-    f.cam1, f.cam5, f.cloud.xyz                    <span class="c"># stereo pair + the LiDAR scan of its trigger</span>
+    f.cam1, f.cam5, f.cloud.xyz                    # stereo pair + the LiDAR scan of its trigger
 
-ref = Reference(seq)                               <span class="c"># reference trajectory, any sensor frame</span>
-E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative error over 100–800 m</span></pre></div>
-</section>
+ref = Reference(seq)                               # reference trajectory, in any sensor frame
+E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      # relative error over 100-800 m</code></pre>
+        </div>
+      </div>
+    </div>
+    <!--/ Toolkit. -->
 
-<section id="license">
-  <h2>License &amp; privacy</h2>
-  <div class="grid2">
-    <div class="card">
-      <h3>License</h3>
-      <p>The data (sensor recordings, calibration and reference trajectories) are released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a> license. The toolkit is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.</p>
+    <!-- License and privacy. -->
+    <div class="columns is-centered mt-5">
+      <div class="column">
+        <h2 class="title is-3">License</h2>
+        <div class="content has-text-justified">
+          <p>The data (sensor recordings, calibration and reference trajectories) are released under the
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a>
+            license. The toolkit is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.</p>
+        </div>
+      </div>
+      <div class="column">
+        <h2 class="title is-3">Privacy</h2>
+        <div class="content has-text-justified">
+          <p>The sequences were recorded on public roads. Faces and license plates were blurred before release, but
+            automatic detection can miss some of them. Please do not attempt to identify any person or vehicle. If you
+            find a face or plate that is not blurred, or you appear in the data and want an image removed, write to
+            <a href="mailto:linar@udesa.edu.ar">linar@udesa.edu.ar</a> with the sequence, split and time.</p>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>Privacy</h3>
-      <p>The sequences were recorded on public roads. Faces and license plates were blurred before release, but automatic detection can miss some of them. Please do not attempt to identify any person or vehicle. If you find a face or plate that is not blurred, or you appear in the data and want an image removed, write to <a href="mailto:linar@udesa.edu.ar">linar@udesa.edu.ar</a> with the sequence, split and time.</p>
+    <!--/ License and privacy. -->
+
+    <!-- Updates. -->
+    <div class="columns is-centered mt-5">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Updates</h2>
+        <div class="content has-text-justified">
+          <p>Changes to the data or the toolkit are listed here; the Hugging Face repository and the toolkit keep every
+            released version.</p>
+          <ul>
+            <li><b>v1.0</b>: initial release.</li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <!--/ Updates. -->
+
   </div>
 </section>
 
-<section id="citation">
-  <h2>Citation</h2>
-  <p>If you use the dataset or the toolkit, please cite:</p>
-  <div class="code"><button class="copy" type="button">Copy</button><pre id="bibtex">@article{roca2026buenosaires,
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{roca2026buenosaires,
   title   = {The Buenos Aires Dataset: Multimodal Driving Data from a Latin American Metropolis
              with GNSS-Referenced Time Synchronization},
   author  = {Roca, Agust{\'i}n and Castro, Gast{\'o}n and Rosito, Claus and Torre, Gabriel and
@@ -348,49 +333,34 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
   journal = {The International Journal of Robotics Research},
   note    = {submitted},
   year    = {2026}
-}</pre></div>
+}</code></pre>
+  </div>
 </section>
 
-<section id="updates">
-  <h2>Updates</h2>
-  <p>Changes to the data or the toolkit are listed here; the Hugging Face repository and the toolkit keep every released version.</p>
-  <ul class="plain">
-    <li><b>v1.0</b>: initial release.</li>
-  </ul>
-</section>
-
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>LINAR · Universidad de San Andrés · <a href="mailto:linar@udesa.edu.ar">linar@udesa.edu.ar</a></span>
-    <button class="theme" type="button" id="theme">Toggle theme</button>
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="mailto:linar@udesa.edu.ar" title="Contact">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            LINAR, Universidad de San Andrés, Buenos Aires, Argentina &middot;
+            <a href="mailto:linar@udesa.edu.ar">linar@udesa.edu.ar</a>
+          </p>
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>. It is adapted from the
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </footer>
 
-<script>
-document.querySelectorAll('.copy').forEach(function (b) {
-  b.addEventListener('click', function () {
-    var pre = b.parentElement.querySelector('pre');
-    var text = Array.from(pre.childNodes).map(function (n) {
-      return n.nodeType === 3 || !n.classList || !n.classList.contains('c') ? n.textContent : '';
-    }).join('').replace(/[ \t]+$/gm, '');
-    navigator.clipboard.writeText(text).then(function () {
-      b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400);
-    });
-  });
-});
-(function () {
-  var root = document.documentElement, key = 'ba-theme';
-  try { var saved = localStorage.getItem(key); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
-  document.getElementById('theme').addEventListener('click', function () {
-    var dark = root.getAttribute('data-theme') ? root.getAttribute('data-theme') === 'dark'
-      : matchMedia('(prefers-color-scheme: dark)').matches;
-    var next = dark ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem(key, next); } catch (e) {}
-  });
-})();
-</script>
 </body>
 </html>
