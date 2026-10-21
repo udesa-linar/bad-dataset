@@ -297,12 +297,15 @@ body {
 
 .seq-map {
   display: block;
-  max-height: 290px;
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1.45;
+  height: auto;
+  object-fit: cover;
   margin: 0 auto;
   border-radius: 8px;
 }
+.seq-card .columns { min-height: 15.5rem; }
 .seq-note { color: var(--muted); font-size: 0.82rem; margin-top: -0.2rem; }
 .speed-scale img { width: 260px; height: auto; margin: -1rem auto 1.2rem; display: block; }
 
@@ -329,6 +332,7 @@ pre code { font-size: 0.85rem; }
   .stat-value { font-size: 1.6rem; }
   .level.stats .level-item { margin-bottom: 1rem; }
   .seq-name code { display: inline-block; margin: 0.2rem 0 0; }
+  .seq-card .columns { min-height: 0; }
 }
 
 /* Bulma's .hero.is-light recolors links to the text color; keep them visible */
