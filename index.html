@@ -318,6 +318,29 @@
 </section>
 <!--/ Sequences. -->
 
+<!-- Anonymization. -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Anonymization</h2>
+    <div class="content has-text-justified">
+      <p>Every image of the five cameras was anonymized before release. Two detectors propose faces and license plates
+        (EgoBlur, and RF-DETR fine-tuned for faces), a scene detector keeps only faces on people and plates on vehicles,
+        and filters remove faces on screens, posters, statues and murals. On 400 manually annotated images of CABA
+        landmarks, the released pipeline blurs 96 % of the faces and 88 % of the license plates. In total, 1,563,662 of
+        the 2,262,145 released images contain at least one blurred region. Each <code>cameras</code> bag comes with
+        <code>blurred_regions.csv</code>, which lists every blurred region with its image, kind and box, so that these
+        regions can be excluded from training or evaluation. The original images are not distributed.</p>
+    </div>
+  </div>
+  <div class="container">
+    <img src="./static/images/anonymization.jpg" class="band-image mt-4" width="2080" height="776" loading="lazy"
+         alt="Two released camera frames with blurred faces and license plates outlined: a taxi driver with pedestrians on the sidewalk, and pedestrians at a street corner next to a truck">
+    <p class="has-text-centered caption">Released frames of CABA landmarks (right and left cameras), with the blurred regions
+      outlined for this figure: a taxi driver and pedestrians on the sidewalk, and pedestrians at a street corner.</p>
+  </div>
+</section>
+<!--/ Anonymization. -->
+
 <!-- Download and toolkit. -->
 <section class="section">
   <div class="container is-max-desktop">
