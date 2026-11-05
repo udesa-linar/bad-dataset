@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Buenos Aires Driving (BAD) Dataset: multimodal driving data of Latin American urban scenarios for autonomous driving. LiDAR, five cameras, IMU, two multi-band GNSS receivers, microphone and vehicle bus; 7.9 h and 180 km in the Buenos Aires Metropolitan Area.">
+        content="Buenos Aires Driving (BAD) Dataset: multimodal driving data of Latin American urban scenarios for autonomous driving. LiDAR, five cameras, IMU, two multi-band GNSS receivers, microphone and vehicle-state data; 7.9 h and 180 km in the Buenos Aires Metropolitan Area.">
   <meta name="keywords" content="autonomous driving, multimodal dataset, time synchronization, sensor calibration, LiDAR, GNSS, Buenos Aires, Latin America">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Buenos Aires Driving Dataset</title>
@@ -219,7 +219,7 @@
       <div class="column is-half-tablet is-one-quarter-desktop">
         <div class="sensor-card">
           <div class="sensor-head"><span class="sensor-icon"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M135.2 117.4L109.1 192H402.9l-26.1-74.6C372.3 104.6 360.2 96 346.6 96H165.4c-13.6 0-25.7 8.6-30.2 21.4zM39.6 196.8L74.8 96.3C88.3 57.8 124.6 32 165.4 32H346.6c40.8 0 77.1 25.8 90.6 64.3l35.2 100.5c23.2 9.6 39.6 32.5 39.6 59.2V400v48c0 17.7-14.3 32-32 32H448c-17.7 0-32-14.3-32-32V400H96v48c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V400 256c0-26.7 16.4-49.6 39.6-59.2zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg></span><span class="tag is-rounded">1–100 Hz</span></div>
-          <p class="sensor-name">Vehicle bus</p>
+          <p class="sensor-name">Vehicle-state data</p>
           <p class="sensor-model">Dataspeed DBW kit</p>
           <p class="sensor-text">pedals, steering, gear, wheel speeds, tire pressures, sonars, vehicle IMU</p>
           <p class="sensor-time"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> host clock</p>
@@ -361,7 +361,7 @@
         take less than 10 GB. MCAP embeds the message definitions, so every topic, including the u-blox and Dataspeed
         messages, can be decoded without ROS or the corresponding packages.</p>
       <pre class="code-dark"><code>&lt;root&gt;/&lt;sequence&gt;/split_XX/&lt;group&gt;/&lt;group&gt;_0.mcap
-<span class="c">    group: cameras, lidar, imu_gps, dataspeed, wheel, microphone, ground_truth, tf_static</span>
+<span class="c">    group: cameras, lidar, imu_gps, dataspeed, wheel, microphone, tf_static; ground_truth in splits with a reference</span>
 &lt;root&gt;/calib/                     <span class="c"># calibration recordings</span></code></pre>
       <p>The toolkit's download command fetches any subset and resumes interrupted downloads:</p>
       <pre class="code-dark"><code>pip install "badataset[download] @ git+https://github.com/udesa-linar/bad_dataset_sdk"
