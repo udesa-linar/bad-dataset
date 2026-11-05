@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Buenos Aires Driving (BAD) Dataset: multimodal sensor data from Latin American urban traffic, with GNSS-referenced time synchronization. LiDAR, five cameras, IMU, two RTK GNSS receivers, microphone and vehicle bus; 7 h 55 min and 180 km in the Buenos Aires Metropolitan Area.">
+        content="Buenos Aires Driving (BAD) Dataset: multimodal driving data of Latin American urban scenarios for autonomous driving. LiDAR, five cameras, IMU, two multi-band GNSS receivers, microphone and vehicle bus; 7.9 h and 180 km in the Buenos Aires Metropolitan Area.">
   <meta name="keywords" content="autonomous driving, multimodal dataset, time synchronization, sensor calibration, LiDAR, GNSS, Buenos Aires, Latin America">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Buenos Aires Driving Dataset</title>
@@ -25,7 +25,7 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Buenos Aires Driving Dataset</h1>
-          <h2 class="subtitle is-4 publication-subtitle">Multimodal Sensor Data from Latin American Urban Traffic</h2>
+          <h2 class="subtitle is-4 publication-subtitle">Multimodal Driving Data of Latin American Urban Scenarios for Autonomous Driving</h2>
           <div class="is-size-5 publication-authors">
             <span class="author-block">Agustín Roca<sup>1</sup>,</span>
             <span class="author-block">Gastón Castro<sup>1,2</sup>,</span>
@@ -84,8 +84,8 @@
            alt="The acquisition vehicle, a white Ford Fusion Hybrid with a roof rack carrying the LiDAR and cameras">
       <h2 class="subtitle has-text-centered teaser-text">
         Driving data from the <span class="dname">Buenos Aires Metropolitan Area</span>, recorded with a 64-beam LiDAR,
-        five cameras, an industrial IMU, two RTK GNSS receivers, a microphone and the vehicle bus,
-        with every stream referenced to GNSS time.
+        five cameras, an industrial-grade IMU, two multi-band GNSS receivers, a microphone and a drive-by-wire interface,
+        with documented timestamping and its measured temporal accuracy.
       </h2>
     </div>
   </div>
@@ -106,7 +106,7 @@
            alt="Six front-camera frames: a cyclist on an avenue, pedestrians pushing a car, a narrow street, a cobblestone street in front of a cathedral, a hand-pulled cart and refuse on a curb">
       <p class="has-text-centered caption">Front-camera frames: a cyclist on the shoulder of an avenue, pedestrians pushing a car, a narrow residential street,
         a cobblestone street in front of the San Isidro cathedral, a hand-pulled cart crossing an intersection, and refuse on the
-        curb of a residential street. Faces and license plates are blurred as in the release.</p>
+        curb of a residential street. The frames are processed by the same automatic blurring pipeline as the release.</p>
     </div>
   </div>
 </section>
@@ -119,18 +119,25 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Public multimodal driving datasets come almost exclusively from North America, Europe and East Asia, so the
-            traffic of Latin American cities, with motorcycles filtering between lanes, buses stopping in mixed traffic,
-            pedestrians and hand-pulled carts, cobblestones and faded markings, is essentially missing from them.
-            We present the Buenos Aires Driving (BAD) Dataset, recorded in the Buenos Aires Metropolitan Area across residential
-            streets, avenues, the historic center and highways, with a vehicle carrying a 64-beam LiDAR, five cameras,
-            an industrial IMU, two RTK GNSS receivers, a microphone and its drive-by-wire bus.
+            Autonomous driving systems have achieved remarkable progress in recent years, supported by large-scale datasets
+            and foundation models developed across North America, Europe, and Asia. These resources have been instrumental
+            in advancing perception and decision-making algorithms in well-structured environments. However, these
+            conditions do not fully capture the operational diversity encountered in other regions such as Latin America.
           </p>
           <p>
-            Beyond the data, we treat time synchronization as a result rather than an assumption: we describe how every
-            sensor stream is referenced to GNSS time and verify it over every recording. The release includes the
-            calibration, a reference trajectory obtained by multi-sensor fusion, and a Python toolkit to read the data
-            and evaluate trajectories.
+            We present the Buenos Aires Driving (BAD) Dataset, comprising 7.9 hours and 180 km of multimodal driving data
+            recorded across four sequences in the Buenos Aires Metropolitan Area, covering residential streets, avenues, the
+            historic center and highways. The release comprises approximately 2.9 TB of sensor data collected using a
+            vehicle equipped with a 64-beam LiDAR, five cameras, an industrial-grade IMU, two multi-band GNSS receivers, a
+            microphone, and a drive-by-wire interface providing access to steering, odometry and vehicle-state data.
+          </p>
+          <p>
+            We document stream-specific timestamping and alignment procedures and evaluate their temporal accuracy. Camera
+            intrinsics, LiDAR–camera extrinsics and an IMU noise model are provided along with reference trajectories
+            obtained through multi-sensor fusion. Detected faces and vehicle license plates are automatically blurred to
+            reduce the risk of identifying people in the recordings. The Python toolkit is publicly available; the complete
+            dataset, including the calibration recordings and reference trajectories, will be released on Hugging Face upon
+            publication and linked from this page.
           </p>
         </div>
       </div>
@@ -143,7 +150,7 @@
 <section class="section pt-0">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Sensors</h2>
-    <p class="section-lead has-text-centered">Every message carries a GNSS-referenced UTC stamp. Rates are the measured mean rates over the release.</p>
+    <p class="section-lead has-text-centered">Rate: measured mean rate over the release. Time stamp: origin of the time stamp of each message.</p>
 
     <div class="columns is-multiline sensor-grid">
       <div class="column is-half-tablet is-one-quarter-desktop">
@@ -160,8 +167,8 @@
           <div class="sensor-head"><span class="sensor-icon"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg></span><span class="tag is-rounded">2 × 10 Hz</span></div>
           <p class="sensor-name">Front stereo pair</p>
           <p class="sensor-model">IDS UI-3280CP-C-HQ Rev. 2, 5 mm f/2.8</p>
-          <p class="sensor-text">global shutter, 1224 × 1026, HFoV 81°, baseline 0.53 m, triggered by the LiDAR</p>
-          <p class="sensor-time"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> camera clock, corrected with the LiDAR</p>
+          <p class="sensor-text">global shutter, 1224 × 1026, HFoV 81°, baseline 0.54 m, triggered by the LiDAR</p>
+          <p class="sensor-time"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> GNSS time at LiDAR trigger</p>
         </div>
       </div>
       <div class="column is-half-tablet is-one-quarter-desktop">
@@ -196,7 +203,7 @@
           <div class="sensor-head"><span class="sensor-icon"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M233 7c-9.4-9.4-24.6-9.4-33.9 0l-96 96c-9.4 9.4-9.4 24.6 0 33.9l89.4 89.4-15.5 15.5C152.3 230.4 124.9 224 96 224c-31.7 0-61.5 7.7-87.8 21.2c-9 4.7-10.3 16.7-3.1 23.8L112.7 376.7 96.3 393.1c-2.6-.7-5.4-1.1-8.3-1.1c-17.7 0-32 14.3-32 32s14.3 32 32 32s32-14.3 32-32c0-2.9-.4-5.6-1.1-8.3l16.4-16.4L242.9 506.9c7.2 7.2 19.2 5.9 23.8-3.1C280.3 477.5 288 447.7 288 416c0-28.9-6.4-56.3-17.8-80.9l15.5-15.5L375 409c9.4 9.4 24.6 9.4 33.9 0l96-96c9.4-9.4 9.4-24.6 0-33.9l-89.4-89.4 55-55c12.5-12.5 12.5-32.8 0-45.3l-48-48c-12.5-12.5-32.8-12.5-45.3 0l-55 55L233 7zm159 351l-72.4-72.4 62.1-62.1L454.1 296 392 358.1zM226.3 192.4L153.9 120 216 57.9l72.4 72.4-62.1 62.1z"/></svg></span><span class="tag is-rounded">2 × 5 Hz</span></div>
           <p class="sensor-name">GNSS receivers</p>
           <p class="sensor-model">u-blox ZED-F9P</p>
-          <p class="sensor-text">multi-band; moving base with NTRIP RTK corrections, rover with moving baseline (heading)</p>
+          <p class="sensor-text">multi-band; RTK and moving-baseline solutions as available by sequence</p>
           <p class="sensor-time"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> GNSS epoch</p>
         </div>
       </div>
@@ -237,9 +244,9 @@
           <span class="feature-icon"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M512 96c0 50.2-59.1 125.1-84.6 155c-3.8 4.4-9.4 6.1-14.5 5H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c53 0 96 43 96 96s-43 96-96 96H139.6c8.7-9.9 19.3-22.6 30-36.8c6.3-8.4 12.8-17.6 19-27.2H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320c-53 0-96-43-96-96s43-96 96-96h39.8c-21-31.5-39.8-67.7-39.8-96c0-53 43-96 96-96s96 43 96 96zM117.1 489.1c-3.8 4.3-7.2 8.1-10.1 11.3l-1.8 2-.2-.2c-6 4.6-14.6 4-20-1.8C59.8 473 0 402.5 0 352c0-53 43-96 96-96s96 43 96 96c0 30-21.1 67-43.5 97.9c-10.7 14.7-21.7 28-30.8 38.5l-.6 .7zM128 352a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM416 128a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg></span>
           <div>
             <h3 class="title is-5">Reference trajectory</h3>
-            <p>Every sequence has a reference trajectory from multi-sensor fusion (MINS) of the IMU, the front stereo
-              pair, the LiDAR, the wheel speeds and both GNSS receivers, with its covariance, in the
-              <code>ground_truth</code> bags.</p>
+            <p>Reference trajectories from multi-sensor fusion (MINS) of the IMU, the front stereo pair, the LiDAR,
+              the wheel speeds and both GNSS receivers, for the portions of each sequence with valid estimates, with
+              their covariance, in the <code>ground_truth</code> bags.</p>
           </div>
         </div>
       </div>
@@ -312,7 +319,7 @@
           </div>
         </div>
       </div>
-      <p class="seq-total">Total: 7:54:45, 180.0 km, 19 splits, 2,942 GB. Start times are local (UTC−3). Map data © OpenStreetMap contributors.</p>
+      <p class="seq-total">Total: 7:54:44, 180.0 km, 19 splits, 2,942 GB. Start times are local (UTC−3). Map data © OpenStreetMap contributors.</p>
     </div>
   </div>
 </section>
@@ -349,7 +356,7 @@
       <svg class="svg-icon" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64V75c0 42.4 16.9 83.1 46.9 113.1L146.7 256 78.9 323.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32H64 320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V437c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H320 64 32zM96 75V64H288V75c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9L192 301.3l67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>&nbsp; The full release is being prepared for Hugging Face and will be linked from this page.
     </div>
     <div class="content">
-      <p>The data are hosted on Hugging Face as ROS 2 MCAP bags, one per sensor group and split, so you can download only
+      <p>The data will be hosted on Hugging Face as ROS 2 MCAP bags, one per sensor group and split, so you can download only
         what you need. The cameras and the LiDAR account for 60 % and 40 % of the 2.9 TB; all the other groups together
         take less than 10 GB. MCAP embeds the message definitions, so every topic, including the u-blox and Dataspeed
         messages, can be decoded without ROS or the corresponding packages.</p>
@@ -439,7 +446,7 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@misc{roca2026buenosaires,
-  title   = {Buenos Aires Driving Dataset: Multimodal Sensor Data from Latin American Urban Traffic},
+  title   = {Buenos Aires Driving Dataset: Multimodal Driving Data of Latin American Urban Scenarios for Autonomous Driving},
   author  = {Roca, Agust{\'i}n and Castro, Gast{\'o}n and Rosito, Claus and Torre, Gabriel and
              Mas, Ignacio and Bunge, Roberto and Giribet, Juan I.},
   howpublished = {\url{https://udesa-linar.github.io/bad-dataset/}},
