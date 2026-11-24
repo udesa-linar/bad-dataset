@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Buenos Aires Driving (BAD) Dataset: multimodal driving data of Latin American urban scenarios for autonomous driving. LiDAR, five cameras, IMU, two multi-band GNSS receivers, microphone and vehicle-state data; 7.9 h and 180 km in the Buenos Aires Metropolitan Area.">
+        content="Buenos Aires Driving (BAD) Dataset: multimodal data of Latin American urban scenarios for autonomous driving. LiDAR, five cameras, IMU, two multi-band GNSS receivers, microphone and vehicle-state data; 7.9 h and 180 km in the Buenos Aires Metropolitan Area.">
   <meta name="keywords" content="autonomous driving, multimodal dataset, time synchronization, sensor calibration, LiDAR, GNSS, Buenos Aires, Latin America">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Buenos Aires Driving Dataset</title>
@@ -25,7 +25,7 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Buenos Aires Driving Dataset</h1>
-          <h2 class="subtitle is-4 publication-subtitle">Multimodal Driving Data of Latin American Urban Scenarios for Autonomous Driving</h2>
+          <h2 class="subtitle is-4 publication-subtitle">Multimodal Data of Latin American Urban Scenarios for Autonomous Driving</h2>
           <div class="is-size-5 publication-authors">
             <span class="author-block">Agustín Roca<sup>1</sup>,</span>
             <span class="author-block">Gastón Castro<sup>1,2</sup>,</span>
@@ -373,7 +373,7 @@ badataset-download /data/buenos_aires --sequences caba --splits split_03  <span 
 badataset-download /data/buenos_aires --calib                             <span class="c"># calibration recordings</span></code></pre>
     </div>
 
-    <h2 class="title is-3 has-text-centered mt-6">Toolkit</h2>
+    <h2 class="title is-3 has-text-centered mt-6">Software Development Kit</h2>
     <div class="content">
       <p>The <code>badataset</code> Python package (<a href="https://github.com/udesa-linar/bad_dataset_sdk">github.com/udesa-linar/bad_dataset_sdk</a>, Apache 2.0) reads the bags without a ROS installation, provides the calibration as
         matrices with LiDAR-to-camera projection, evaluates trajectories against the reference, and contains the scripts
@@ -395,6 +395,41 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
   </div>
 </section>
 <!--/ Download and toolkit. -->
+
+<!-- Known issues. -->
+<section class="section pt-0">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Known issues</h2>
+    <div class="content">
+      <ul>
+        <li>All sequences were recorded in daytime with sunny or cloudy skies; night, rain and low-sun conditions are not covered.</li>
+        <li>No manual annotations (bounding boxes, semantic masks) are provided.</li>
+        <li>The images are JPEG-compressed at quality 100 with 4:2:0 chroma subsampling, so the color information has half
+          the resolution of the image in each direction.</li>
+        <li>The lateral and rear cameras are not triggered; their exposures are not aligned with the LiDAR sweep. Their
+          mapping to GNSS time depends on an assumed minimum latency and on exposure times that were not recorded, so their
+          absolute timing uncertainty is not fully measured.</li>
+        <li>The minimum transport latency of the IMU is not directly observed.</li>
+        <li>In CABA landmarks, the Hall-effect sensor intermittently failed to trigger the front pair, which has no frames
+          during about 780 s in four episodes (185–689 s, 3594–3709 s, 4144–4213 s and 7077–7250 s after the start); the
+          last two are isolated in short splits (split_03 and split_05).</li>
+        <li>The LiDAR scans carry no per-point time, and the raw packets are not provided; motion compensation within a scan
+          must assume uniform rotation.</li>
+        <li>Audio: in SF/SI avenues the input gain was set too low, the recording is close to the noise floor (−82 dBFS RMS)
+          and it could not be aligned with the other sensors; in CABA loops the microphone recorded sound only during the
+          first 340 s, and the rest is digital silence; in CABA landmarks and SI loops loud sounds are often clipped (8.4 %
+          and 2.3 % of the samples at full scale).</li>
+        <li>Raw GNSS observations were not logged. RTK-fixed solutions are infrequent and the absolute GNSS solution is
+          mostly RTK-float. The moving-baseline (heading) solution is not available in SF/SI avenues.</li>
+        <li>Some vehicle-state and IMU fields carry no useful information: in all sequences the latitude of
+          <code>/dataspeed/gps/fix</code> is constant, <code>/dataspeed/gps/time</code> has a resolution of one second and
+          is not a time reference, the vehicle IMU (<code>/dataspeed/imu/data_raw</code>) has no pitch rate, and neither
+          IMU message carries an orientation (<code>orientation</code> is zero).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--/ Known issues. -->
 
 <!-- License and privacy. -->
 <section class="hero is-light">
@@ -437,7 +472,7 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
     <h2 class="title is-3 has-text-centered">Updates</h2>
     <p class="section-lead has-text-centered">Release updates of the data and the toolkit are listed here.</p>
     <div class="updates">
-      <div class="update"><span class="tag is-dark is-rounded">0.1.0</span><span>Toolkit released. The complete dataset will be published on Hugging Face upon publication of the paper.</span></div>
+      <div class="update"><span class="tag is-dark is-rounded">0.1.0</span><span>SDK released. The complete dataset will be published on Hugging Face upon publication of the paper.</span></div>
     </div>
   </div>
 </section>
@@ -447,7 +482,7 @@ E.rpe_kitti(ref.traj, E.load_tum('mine.txt'))      <span class="c"># relative er
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@misc{roca2026buenosaires,
-  title   = {Buenos Aires Driving Dataset: Multimodal Driving Data of Latin American Urban Scenarios for Autonomous Driving},
+  title   = {Buenos Aires Driving Dataset: Multimodal Data of Latin American Urban Scenarios for Autonomous Driving},
   author  = {Roca, Agust{\'i}n and Castro, Gast{\'o}n and Rosito, Claus and Torre, Gabriel and
              Mas, Ignacio and Bunge, Roberto and Giribet, Juan I.},
   howpublished = {\url{https://udesa-linar.github.io/bad-dataset/}},
